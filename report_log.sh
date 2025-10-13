@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 Log, Cycles, Instructions
 for file in "$@"
 do
