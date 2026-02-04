@@ -4,3 +4,9 @@
 [submodule "Toooba-olden"]
 	path = Toooba-olden
 	url = https://github.com/CTSRD-CHERI/Toooba-olden.git
+[submodule "cva6-dhrystone"]
+	path = cva6-dhrystone
+	url = https://github.com/Capabilities-Limited/cva6-dhrystone.git
+[submodule "cva6-coremark"]
+	path = cva6-coremark
+	url = https://github.com/Capabilities-Limited/cva6-coremark.git
