@@ -14,6 +14,20 @@
         "rebuild_status": "Historical binary; exact adapted source and compiler invocation not recovered."
       },
       "validation": {
+        "model_base_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+        "model_study_commit": "622ef1a1",
+        "model_patch": "validation/model.patch",
+        "model": "Bluesim CORE_SMALL CACHE_LARGE, independent ObjQueue capacity 19",
+        "added_DRAM_latency_cycles": 50,
+        "observed": {
+          "cycles_to_tohost": 1442893,
+          "tohost": 2875921,
+          "exit_value": 1437960,
+          "returncode": 0
+        },
+        "interpretation": "Completed without simulator assertions; exit_value is measured body cycles. No independent algorithm-correctness proof is claimed for this historical binary."
+      },
+      "historical_validation": {
         "model_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
         "model_branch": "CHERID_eval_Reloaded_objid_lsoq",
         "model": "Bluesim CORE_SMALL, independent ObjID queue default 19; no added DRAM latency",

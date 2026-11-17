@@ -1,0 +1,32 @@
+[
+  {
+    "name": "runtime",
+    "directory": "Toooba",
+    "commit": "622ef1a10a080536f08930d050b8ee96d50fdff1",
+    "base": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+    "patch": "models/runtime.patch",
+    "patch_sha256": "2edbefd62b68cf7d227b07339978a1de3f6c1bea13a5cc33ad95e24806e4837e",
+    "physical_entries": 19,
+    "added_DRAM_latency": 50
+  },
+  {
+    "name": "physical8",
+    "directory": "Toooba-physical8",
+    "commit": "7ea449e7b57c9f7c4a4e630be670b200035b403c",
+    "base": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+    "patch": "models/physical8.patch",
+    "patch_sha256": "b2b27162a87c47418f48ab111972f05a7bce301724cff9e1b00680c7be8ae6c6",
+    "physical_entries": 8,
+    "added_DRAM_latency": 50
+  },
+  {
+    "name": "physical16",
+    "directory": "Toooba-physical16",
+    "commit": "7b90aeead8aaa0060399c747bd440eaabf884d2a",
+    "base": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+    "patch": "models/physical16.patch",
+    "patch_sha256": "6b4c6e589252b3892d9e4613a0d41ac6494c0931d3cfa19521850e37ea574638",
+    "physical_entries": 16,
+    "added_DRAM_latency": 50
+  }
+]

@@ -1,0 +1,138 @@
+[
+  {
+    "entries": 1,
+    "tested_workloads": 1,
+    "complete": false,
+    "worst_overhead_percent": 110.70731978870714,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 2,
+    "tested_workloads": 1,
+    "complete": false,
+    "worst_overhead_percent": 42.5179479355235,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 3,
+    "tested_workloads": 1,
+    "complete": false,
+    "worst_overhead_percent": 22.7234677761879,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 4,
+    "tested_workloads": 5,
+    "complete": true,
+    "worst_overhead_percent": 12.057796269798393,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 5,
+    "tested_workloads": 1,
+    "complete": false,
+    "worst_overhead_percent": 7.447620068699057,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 6,
+    "tested_workloads": 1,
+    "complete": false,
+    "worst_overhead_percent": 5.256755475099695,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 7,
+    "tested_workloads": 1,
+    "complete": false,
+    "worst_overhead_percent": 3.859270041689511,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 8,
+    "tested_workloads": 5,
+    "complete": true,
+    "worst_overhead_percent": 3.08764788967697,
+    "worst_workload": "treeadd-warm-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 9,
+    "tested_workloads": 2,
+    "complete": false,
+    "worst_overhead_percent": 1.6284066026960087,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 10,
+    "tested_workloads": 2,
+    "complete": false,
+    "worst_overhead_percent": 1.8568536165966432,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 11,
+    "tested_workloads": 2,
+    "complete": false,
+    "worst_overhead_percent": 1.3496517626295335,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 12,
+    "tested_workloads": 5,
+    "complete": true,
+    "worst_overhead_percent": 1.1998238233373426,
+    "worst_workload": "treeadd-warm-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 13,
+    "tested_workloads": 5,
+    "complete": true,
+    "worst_overhead_percent": 0.8429142050028204,
+    "worst_workload": "treeadd-warm-objid.bin",
+    "one_percent_criterion": "passes"
+  },
+  {
+    "entries": 14,
+    "tested_workloads": 2,
+    "complete": false,
+    "worst_overhead_percent": 1.432194766338113,
+    "worst_workload": "treeadd-warm-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 15,
+    "tested_workloads": 2,
+    "complete": false,
+    "worst_overhead_percent": 1.052503683003514,
+    "worst_workload": "treeadd-warm-objid.bin",
+    "one_percent_criterion": "fails"
+  },
+  {
+    "entries": 16,
+    "tested_workloads": 5,
+    "complete": true,
+    "worst_overhead_percent": 0.9659341160032309,
+    "worst_workload": "treeadd-warm-objid.bin",
+    "one_percent_criterion": "passes"
+  },
+  {
+    "entries": 19,
+    "tested_workloads": 5,
+    "complete": true,
+    "worst_overhead_percent": 0.0,
+    "worst_workload": "bisort-objid.bin",
+    "one_percent_criterion": "passes"
+  }
+]

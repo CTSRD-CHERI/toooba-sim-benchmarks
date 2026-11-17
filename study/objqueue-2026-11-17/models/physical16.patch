@@ -1,0 +1,48 @@
+diff --git a/builds/RV64ACDFIMSUxCHERI_Toooba_bluesim/Makefile b/builds/RV64ACDFIMSUxCHERI_Toooba_bluesim/Makefile
+index 15ea5014..b3d74107 100644
+--- a/builds/RV64ACDFIMSUxCHERI_Toooba_bluesim/Makefile
++++ b/builds/RV64ACDFIMSUxCHERI_Toooba_bluesim/Makefile
+@@ -3,6 +3,9 @@
+ REPO ?= ../..
+ ARCH ?= RV64ACDFIMSUxCHERI
+ 
++# Physical capacity validation for the ObjQueue study.
++OBJIDQ_SIZE ?= 16
++
+ # ================================================================
+ # RISC-V config macros passed into Bluespec 'bsc' compiler
+ 
+diff --git a/src_Testbench/SoC/SoC_Top.bsv b/src_Testbench/SoC/SoC_Top.bsv
+index 6df676b0..7f105958 100644
+--- a/src_Testbench/SoC/SoC_Top.bsv
++++ b/src_Testbench/SoC/SoC_Top.bsv
+@@ -48,6 +48,7 @@ import GetPut_Aux  :: *;
+ import Routable    :: *;
+ import BlueBasics  :: *;
+ import BlueAXI4    :: *;
++import AXI4_DelayShim :: *;
+ 
+ // ================================================================
+ // Project imports
+@@ -212,7 +213,20 @@ module mkSoC_Top #(Reset dm_power_on_reset)
+ 
+    // Fabric to Mem Controller
+    mkConnection(mem0_controller_axi4_deburster.master, mem0_controller.slave);
+-   slave_vector[mem0_controller_slave_num] = mem0_controller_axi4_deburster.slave;
++   // Study-only: the existing fully pipelined AXI delay affects DRAM traffic,
++   // outside the LLC. Peripheral routes and cache hits retain their latency.
++   Reg#(Bit#(16)) studyMemLatency <- mkReg(50);
++   Reg#(Bool) studyMemConfigured <- mkReg(False);
++   rule configureStudyMemory (!studyMemConfigured);
++      Bool zeroDelay <- $test$plusargs("memlat0");
++      studyMemLatency <= zeroDelay ? 0 : 50;
++      studyMemConfigured <= True;
++      $display("STUDY memory added latency=%0d", zeroDelay ? 0 : 50);
++   endrule
++   NumProxy#(128) delayDepth = error("proxy");
++   let dramDelay <- mkAXI4_DelayShim(delayDepth, studyMemLatency);
++   mkConnection(dramDelay.master, mem0_controller_axi4_deburster.slave);
++   slave_vector[mem0_controller_slave_num] = dramDelay.slave;
+    route_vector[mem0_controller_slave_num] = soc_map.m_mem0_controller_addr_range;
+ 
+    // Fabric to UART0

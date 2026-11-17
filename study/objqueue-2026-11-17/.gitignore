@@ -1,0 +1,28 @@
+# Isolated source clones (changes published separately or saved as model patches)
+Toooba*/
+quiet-sim*/
+__pycache__/
+# Generated simulation and compiler artifacts; keep JSON/CSV summaries separately
+*-binaries/
+probes/
+probe-runs/
+probe-validation*/
+probe-trace/
+*-probes/
+olden-validation/
+smoke-runs/
+bisort-final-validation/
+sweep-*/
+control-sweep/
+physical*-runs/
+*.log
+# Standalone AXI test outputs
+/delay-test/*
+!/delay-test/Test.bsv
+
+# Diagnostic rerun artifacts
+progress-wrappers/
+progress-probe-validation/
+published-probe-validation/
+trace-probe-validation/
+trace-runs*/

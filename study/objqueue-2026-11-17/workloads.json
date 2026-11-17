@@ -1,0 +1,98 @@
+[
+  {
+    "file": "study-binaries/treeadd-objid.bin",
+    "sha256": "e7fb96b5d0ad9bab7da390d65316bfec9f5accd145c00305550fe48766c08319",
+    "benchmark": "treeadd",
+    "levels": 9,
+    "flags": [],
+    "build_command": [
+      "python3",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/Toooba-olden/cherid/build.py",
+      "--benchmark",
+      "treeadd",
+      "--levels",
+      "9",
+      "--output",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/study-binaries/treeadd-objid.bin"
+    ],
+    "source_commit": "ea2c0e9b0767acbc35288befd148424575c941ac"
+  },
+  {
+    "file": "study-binaries/treeadd-wide-objid.bin",
+    "sha256": "930772524761e59933b00053d52f21e973616230c8732c5a099fcb7ab02dd0cd",
+    "benchmark": "treeadd",
+    "levels": 11,
+    "flags": [],
+    "build_command": [
+      "python3",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/Toooba-olden/cherid/build.py",
+      "--benchmark",
+      "treeadd",
+      "--levels",
+      "11",
+      "--output",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/study-binaries/treeadd-wide-objid.bin"
+    ],
+    "source_commit": "ea2c0e9b0767acbc35288befd148424575c941ac"
+  },
+  {
+    "file": "study-binaries/treeadd-warm-objid.bin",
+    "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+    "benchmark": "treeadd",
+    "levels": 9,
+    "flags": [
+      "--algorithm-only"
+    ],
+    "build_command": [
+      "python3",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/Toooba-olden/cherid/build.py",
+      "--benchmark",
+      "treeadd",
+      "--levels",
+      "9",
+      "--algorithm-only",
+      "--output",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/study-binaries/treeadd-warm-objid.bin"
+    ],
+    "source_commit": "ea2c0e9b0767acbc35288befd148424575c941ac"
+  },
+  {
+    "file": "study-binaries/bisort-objid.bin",
+    "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+    "benchmark": "bisort",
+    "levels": 7,
+    "flags": [],
+    "build_command": [
+      "python3",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/Toooba-olden/cherid/build.py",
+      "--benchmark",
+      "bisort",
+      "--levels",
+      "7",
+      "--output",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/study-binaries/bisort-objid.bin"
+    ],
+    "source_commit": "ea2c0e9b0767acbc35288befd148424575c941ac"
+  },
+  {
+    "file": "control-binaries/treeadd-control.bin",
+    "sha256": "c4fe24f1509b0acd8061ff814457bf52addbe0538387c2f1bcba587de15faa80",
+    "benchmark": "treeadd",
+    "levels": 9,
+    "flags": [
+      "--control"
+    ],
+    "build_command": [
+      "python3",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/Toooba-olden/cherid/build.py",
+      "--benchmark",
+      "treeadd",
+      "--levels",
+      "9",
+      "--control",
+      "--output",
+      "/local/scratch/jdw57/BESSPIN-GFE/analysis/objqueue-study/control-binaries/treeadd-control.bin"
+    ],
+    "source_commit": "ea2c0e9b0767acbc35288befd148424575c941ac"
+  }
+]

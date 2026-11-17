@@ -12,11 +12,13 @@ converter. Ordinary CHERI controls are kept outside this published suite.
 | `treeadd-warm-objid.bin` | 511 nodes; construction and a traversal before timing | Every sum checked |
 | `bisort-objid.bin` | Two identical 127-node coloured trees; sort ascending/descending | Order, count and sum checked |
 
-All four Olden binaries completed on the current Reloaded LSOQ model with
+All five binaries completed on the current Reloaded LSOQ model with
 19 ObjQueue entries and **50 added DRAM cycles**. `manifest.json` records exact
 binary hashes, source revisions, build commands, model configuration and
-observed counters. The existing Patricia validation records no added delay;
-its new latency sweep is in progress. Do not interpret the execution-only
+observed counters. Patricia also retains its earlier no-added-delay validation.
+The completed [ObjQueue size study](study/objqueue-2026-11-17/README.md) finds
+13 effective entries sufficient for a 1% body-cycle budget, with 16 as the
+recommended separately compiled configuration. Do not interpret the execution-only
 validation of historical Patricia as an independent algorithm-correctness proof.
 
 ## Verify and run

@@ -1,0 +1,19 @@
+| Entries | Largest measured body overhead | Workloads tested | Meets 1% on every workload? |
+| ---: | ---: | ---: | --- |
+| 1 | +110.71% | 1/5 | fails |
+| 2 | +42.52% | 1/5 | fails |
+| 3 | +22.72% | 1/5 | fails |
+| 4 | +12.06% | 5/5 | fails |
+| 5 | +7.45% | 1/5 | fails |
+| 6 | +5.26% | 1/5 | fails |
+| 7 | +3.86% | 1/5 | fails |
+| 8 | +3.09% | 5/5 | fails |
+| 9 | +1.63% | 2/5 | fails |
+| 10 | +1.86% | 2/5 | fails |
+| 11 | +1.35% | 2/5 | fails |
+| 12 | +1.20% | 5/5 | fails |
+| 13 | +0.84% | 5/5 | passes |
+| 14 | +1.43% | 2/5 | fails |
+| 15 | +1.05% | 2/5 | fails |
+| 16 | +0.97% | 5/5 | passes |
+| 19 | +0.00% | 5/5 | passes |

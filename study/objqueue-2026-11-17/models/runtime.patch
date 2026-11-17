@@ -1,0 +1,73 @@
+diff --git a/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv b/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv
+index 7c6dade2..a2f26163 100644
+--- a/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv
++++ b/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv
+@@ -84,8 +84,22 @@ module mkObjIdLoadQueue(ObjIdLoadQueue);
+     Reg#(ObjIdQTag) cursor <- mkReg(0);
+     PulseWire wrongSpec <- mkPulseWire;
+ 
++    // Study-only effective ring size. Physical maximum remains OBJIDQ_SIZE.
++    // Validate any selected knee with a separately compiled physical capacity.
++    Reg#(ObjIdQTag) studyLast <- mkReg(fromInteger(valueOf(ObjIdQSize)-1));
++    Reg#(Bool) studyConfigured <- mkReg(False);
++    rule configureStudyQueue (!studyConfigured);
++        ObjIdQTag last = fromInteger(valueOf(ObjIdQSize)-1);
++        for (Integer n=1; n<=valueOf(ObjIdQSize); n=n+1) begin
++            Bool chosen <- $test$plusargs("objq" + integerToString(n));
++            if (chosen) last = fromInteger(n-1);
++        end
++        studyLast <= last;
++        studyConfigured <= True;
++        $display("STUDY ObjQueue effective last-index=%0d physical=%0d", last, valueOf(ObjIdQSize));
++    endrule
+     function ObjIdQTag next(ObjIdQTag tag) =
+-        tag == fromInteger(valueOf(ObjIdQSize)-1) ? 0 : tag+1;
++        tag == studyLast ? 0 : tag+1;
+     function Bit#(ObjIdQSize) pending;
+         Bit#(ObjIdQSize) bits = 0;
+         for (Integer i=0; i<valueOf(ObjIdQSize); i=i+1)
+@@ -121,8 +135,8 @@ module mkObjIdLoadQueue(ObjIdLoadQueue);
+         endinterface;
+     end
+ 
+-    method Maybe#(ObjIdQTag) enqTag = !used[tail][1] ? Valid(tail) : Invalid;
+-    method Action reserve(ObjIdOwner owner, SpecBits specBits, Bool unused) if (!used[tail][1] && !wrongSpec);
++    method Maybe#(ObjIdQTag) enqTag = studyConfigured && !used[tail][1] ? Valid(tail) : Invalid;
++    method Action reserve(ObjIdOwner owner, SpecBits specBits, Bool unused) if (studyConfigured && !used[tail][1] && !wrongSpec);
+         owners.upd(tail, owner);
+         commitTags.upd(tail, owner.instTag);
+         storeOwner[tail] <= case (owner.parent) matches
+diff --git a/src_Testbench/SoC/SoC_Top.bsv b/src_Testbench/SoC/SoC_Top.bsv
+index 6df676b0..7f105958 100644
+--- a/src_Testbench/SoC/SoC_Top.bsv
++++ b/src_Testbench/SoC/SoC_Top.bsv
+@@ -48,6 +48,7 @@ import GetPut_Aux  :: *;
+ import Routable    :: *;
+ import BlueBasics  :: *;
+ import BlueAXI4    :: *;
++import AXI4_DelayShim :: *;
+ 
+ // ================================================================
+ // Project imports
+@@ -212,7 +213,20 @@ module mkSoC_Top #(Reset dm_power_on_reset)
+ 
+    // Fabric to Mem Controller
+    mkConnection(mem0_controller_axi4_deburster.master, mem0_controller.slave);
+-   slave_vector[mem0_controller_slave_num] = mem0_controller_axi4_deburster.slave;
++   // Study-only: the existing fully pipelined AXI delay affects DRAM traffic,
++   // outside the LLC. Peripheral routes and cache hits retain their latency.
++   Reg#(Bit#(16)) studyMemLatency <- mkReg(50);
++   Reg#(Bool) studyMemConfigured <- mkReg(False);
++   rule configureStudyMemory (!studyMemConfigured);
++      Bool zeroDelay <- $test$plusargs("memlat0");
++      studyMemLatency <= zeroDelay ? 0 : 50;
++      studyMemConfigured <= True;
++      $display("STUDY memory added latency=%0d", zeroDelay ? 0 : 50);
++   endrule
++   NumProxy#(128) delayDepth = error("proxy");
++   let dramDelay <- mkAXI4_DelayShim(delayDepth, studyMemLatency);
++   mkConnection(dramDelay.master, mem0_controller_axi4_deburster.slave);
++   slave_vector[mem0_controller_slave_num] = dramDelay.slave;
+    route_vector[mem0_controller_slave_num] = soc_map.m_mem0_controller_addr_range;
+ 
+    // Fabric to UART0

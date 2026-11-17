@@ -1,0 +1,92 @@
+[
+  {
+    "capacity": 8,
+    "benchmark": "bisort-objid.bin",
+    "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+    "body_cycles": 249086,
+    "whole_cycles": 253959,
+    "match": "exact",
+    "physical_model_sha256": "14944e86a8aa0e7649517e0d72ecb9c402ad7c85ee9d7a8f2ac681ccb0292983"
+  },
+  {
+    "capacity": 8,
+    "benchmark": "patricia.bin",
+    "sha256": "3120c5724e921f85a792b666335969cd6efa8556fdb295c51f1ce252bd502005",
+    "body_cycles": 1441933,
+    "whole_cycles": 1447005,
+    "match": "exact",
+    "physical_model_sha256": "14944e86a8aa0e7649517e0d72ecb9c402ad7c85ee9d7a8f2ac681ccb0292983"
+  },
+  {
+    "capacity": 8,
+    "benchmark": "treeadd-objid.bin",
+    "sha256": "e7fb96b5d0ad9bab7da390d65316bfec9f5accd145c00305550fe48766c08319",
+    "body_cycles": 158340,
+    "whole_cycles": 162801,
+    "match": "exact",
+    "physical_model_sha256": "14944e86a8aa0e7649517e0d72ecb9c402ad7c85ee9d7a8f2ac681ccb0292983"
+  },
+  {
+    "capacity": 8,
+    "benchmark": "treeadd-warm-objid.bin",
+    "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+    "body_cycles": 67876,
+    "whole_cycles": 180124,
+    "match": "exact",
+    "physical_model_sha256": "14944e86a8aa0e7649517e0d72ecb9c402ad7c85ee9d7a8f2ac681ccb0292983"
+  },
+  {
+    "capacity": 8,
+    "benchmark": "treeadd-wide-objid.bin",
+    "sha256": "930772524761e59933b00053d52f21e973616230c8732c5a099fcb7ab02dd0cd",
+    "body_cycles": 685289,
+    "whole_cycles": 689750,
+    "match": "exact",
+    "physical_model_sha256": "14944e86a8aa0e7649517e0d72ecb9c402ad7c85ee9d7a8f2ac681ccb0292983"
+  },
+  {
+    "capacity": 16,
+    "benchmark": "bisort-objid.bin",
+    "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+    "body_cycles": 243150,
+    "whole_cycles": 248020,
+    "match": "exact",
+    "physical_model_sha256": "cc98f20da7eb1d848eaeeaca8ac3b0aa1cfbb7d4ea1fbb8bc350831974812d35"
+  },
+  {
+    "capacity": 16,
+    "benchmark": "patricia.bin",
+    "sha256": "3120c5724e921f85a792b666335969cd6efa8556fdb295c51f1ce252bd502005",
+    "body_cycles": 1437316,
+    "whole_cycles": 1442249,
+    "match": "exact",
+    "physical_model_sha256": "cc98f20da7eb1d848eaeeaca8ac3b0aa1cfbb7d4ea1fbb8bc350831974812d35"
+  },
+  {
+    "capacity": 16,
+    "benchmark": "treeadd-objid.bin",
+    "sha256": "e7fb96b5d0ad9bab7da390d65316bfec9f5accd145c00305550fe48766c08319",
+    "body_cycles": 157968,
+    "whole_cycles": 162392,
+    "match": "exact",
+    "physical_model_sha256": "cc98f20da7eb1d848eaeeaca8ac3b0aa1cfbb7d4ea1fbb8bc350831974812d35"
+  },
+  {
+    "capacity": 16,
+    "benchmark": "treeadd-warm-objid.bin",
+    "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+    "body_cycles": 66479,
+    "whole_cycles": 178552,
+    "match": "exact",
+    "physical_model_sha256": "cc98f20da7eb1d848eaeeaca8ac3b0aa1cfbb7d4ea1fbb8bc350831974812d35"
+  },
+  {
+    "capacity": 16,
+    "benchmark": "treeadd-wide-objid.bin",
+    "sha256": "930772524761e59933b00053d52f21e973616230c8732c5a099fcb7ab02dd0cd",
+    "body_cycles": 687252,
+    "whole_cycles": 691715,
+    "match": "exact",
+    "physical_model_sha256": "cc98f20da7eb1d848eaeeaca8ac3b0aa1cfbb7d4ea1fbb8bc350831974812d35"
+  }
+]

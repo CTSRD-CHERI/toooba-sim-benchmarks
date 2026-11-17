@@ -1,0 +1,20 @@
+[
+  {
+    "model": "Toooba",
+    "control_entries": 19,
+    "ObjIdQTag_bits": 5,
+    "owner_regfile_constructor": "INST_owners(simHdl, \"owners\", this, 5u, 18u, (tUInt8)0u, (tUInt8)31u),"
+  },
+  {
+    "model": "Toooba-physical8",
+    "control_entries": 8,
+    "ObjIdQTag_bits": 3,
+    "owner_regfile_constructor": "INST_owners(simHdl, \"owners\", this, 3u, 18u, (tUInt8)0u, (tUInt8)7u),"
+  },
+  {
+    "model": "Toooba-physical16",
+    "control_entries": 16,
+    "ObjIdQTag_bits": 4,
+    "owner_regfile_constructor": "INST_owners(simHdl, \"owners\", this, 4u, 18u, (tUInt8)0u, (tUInt8)15u),"
+  }
+]
