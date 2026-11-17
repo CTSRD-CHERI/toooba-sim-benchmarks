@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "suite": "CHERI-D adapted benchmarks",
+  "binaries": [
+    {
+      "file": "patricia.bin",
+      "sha256": "3120c5724e921f85a792b666335969cd6efa8556fdb295c51f1ce252bd502005",
+      "format": "RISC-V ELF (despite .bin suffix)",
+      "adaptation": "ObjID mode-1 metadata checks in pat_insert using CSetTmode, CSetTloc and CSetMTE",
+      "provenance": {
+        "repository": "https://github.com/CTSRD-CHERI/Toooba",
+        "commit": "5a90927f628b0871a6e207c6414a37a10caeb61c",
+        "path": "Tests/benchmarks/patricia.bin",
+        "rebuild_status": "Historical binary; exact adapted source and compiler invocation not recovered."
+      },
+      "validation": {
+        "model_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+        "model_branch": "CHERID_eval_Reloaded_objid_lsoq",
+        "model": "Bluesim CORE_SMALL, independent ObjID queue default 19; no added DRAM latency",
+        "observed": {
+          "cycles_to_tohost": 1418494,
+          "tohost": 2831139,
+          "exit_value": 1415569,
+          "last_logged_instret": 2008223,
+          "returncode": 0
+        },
+        "interpretation": "Completed without simulator assertions; exit_value is benchmark body cycles, not an ISA test failure code. This is execution validation, not an independent algorithm-correctness proof."
+      }
+    }
+  ]
+}
