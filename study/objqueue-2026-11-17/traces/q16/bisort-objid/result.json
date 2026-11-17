@@ -1,0 +1,10 @@
+{
+  "variant": "q16",
+  "benchmark": "bisort-objid.bin",
+  "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+  "cycles_to_tohost": 248020,
+  "tohost": 486301,
+  "exit_value": 243150,
+  "returncode": 0,
+  "wall_seconds": 100.63
+}

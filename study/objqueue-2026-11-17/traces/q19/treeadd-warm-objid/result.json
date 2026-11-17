@@ -1,0 +1,10 @@
+{
+  "variant": "q19",
+  "benchmark": "treeadd-warm-objid.bin",
+  "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+  "cycles_to_tohost": 177774,
+  "tohost": 131687,
+  "exit_value": 65843,
+  "returncode": 0,
+  "wall_seconds": 73.64
+}

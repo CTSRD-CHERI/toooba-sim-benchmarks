@@ -1,0 +1,16 @@
+{
+  "model_commit": "a770e7f7f24af5e4a9e7198c845a54c6f4572249",
+  "base": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+  "compiled_capacity": 19,
+  "selected_capacities": [
+    13,
+    16,
+    19
+  ],
+  "added_DRAM_latency": 50,
+  "flag": "+trace_objq",
+  "model_library_sha256": "2d8dfe0c04041da7b2e535b93ec96541cff4571788269993813238d7b442f84a",
+  "trace_patch_sha256": "3374c6ecb4dbed9f6e3bc6ae4e10d18fc7876c57700cd1af868fab98818171e1",
+  "output_filter": "trace_quiet_bluesim.cc",
+  "end_cycle_events_excluded": true
+}

@@ -1,0 +1,40 @@
+{
+  "integrated_lsq_regression": "PASS",
+  "trace_smoke_cycles": 5238,
+  "trace_smoke_exit_value": 0,
+  "pre_termination_smoke_events_preserved": 503,
+  "traced_benchmark_runs": 9,
+  "body_and_whole_cycle_comparisons": "all exact",
+  "probe_results": [
+    {
+      "variant": "q13",
+      "benchmark": "objid-probe.bin",
+      "sha256": "2333aeb8e95b7dff5190acfebc55a189b3e99e231773253f026abf5690a351d3",
+      "cycles_to_tohost": 5182,
+      "tohost": 1,
+      "exit_value": 0,
+      "returncode": 0,
+      "wall_seconds": 2.04
+    },
+    {
+      "variant": "q13",
+      "benchmark": "objid-negative-store.bin",
+      "sha256": "072e3475165c7f0ca81aff1d86f2e1737802841d35c6331c7ce6d7ea1648351a",
+      "cycles_to_tohost": 5576,
+      "tohost": 149131,
+      "exit_value": 74565,
+      "returncode": 0,
+      "wall_seconds": 2.24
+    },
+    {
+      "variant": "q13",
+      "benchmark": "objid-negative.bin",
+      "sha256": "6650c7026f0b110b7a819d2a60515e1ddfd9df1a6e08d7da94457f433f1dd0a9",
+      "cycles_to_tohost": 5570,
+      "tohost": 149131,
+      "exit_value": 74565,
+      "returncode": 0,
+      "wall_seconds": 2.7
+    }
+  ]
+}

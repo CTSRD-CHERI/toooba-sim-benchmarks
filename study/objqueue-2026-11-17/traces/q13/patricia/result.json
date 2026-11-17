@@ -1,0 +1,10 @@
+{
+  "variant": "q13",
+  "benchmark": "patricia.bin",
+  "sha256": "3120c5724e921f85a792b666335969cd6efa8556fdb295c51f1ce252bd502005",
+  "cycles_to_tohost": 1442337,
+  "tohost": 2874943,
+  "exit_value": 1437471,
+  "returncode": 0,
+  "wall_seconds": 614.05
+}

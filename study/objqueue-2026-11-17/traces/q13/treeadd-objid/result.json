@@ -1,0 +1,10 @@
+{
+  "variant": "q13",
+  "benchmark": "treeadd-objid.bin",
+  "sha256": "e7fb96b5d0ad9bab7da390d65316bfec9f5accd145c00305550fe48766c08319",
+  "cycles_to_tohost": 162568,
+  "tohost": 316275,
+  "exit_value": 158137,
+  "returncode": 0,
+  "wall_seconds": 69.64
+}

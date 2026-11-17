@@ -1,0 +1,327 @@
+diff --git a/Tests/test_objid_lsoq.py b/Tests/test_objid_lsoq.py
+index 4ae41e31..de765480 100644
+--- a/Tests/test_objid_lsoq.py
++++ b/Tests/test_objid_lsoq.py
+@@ -90,6 +90,13 @@ module mkTest(Empty);
+             stores <= stores + 1;
+         endaction
+         check(!isValid(lsq.enqLdTag) && !isValid(lsq.enqStTag), "reservation pool over-allocated");
++        action
++            let {q, ldSpace, stSpace, conflict} = lsq.objIdAdmissionDebug;
++            if (valueOf(ObjIdQSize) <= valueOf(LdQSize)+valueOf(StQSize))
++                check(q.full && q.used == q.limit, "ObjQueue full snapshot incorrect");
++            if (valueOf(ObjIdQSize) < valueOf(LdQSize))
++                check(ldSpace && stSpace, "ObjQueue fullness confused with payload fullness");
++        endaction
+         lsq.specUpdate.incorrectSpeculation(True, 0);
+         delay(creditDrainDelay);
+         filled <= 0;
+@@ -117,6 +124,10 @@ module mkTest(Empty);
+             endaction
+         endseq
+         check(!isValid(lsq.enqLdTag) && !isValid(lsq.enqStTag), "full payload queues over-allocated");
++        action
++            let {q, ldSpace, stSpace, conflict} = lsq.objIdAdmissionDebug;
++            check(!ldSpace && !stSpace && !q.full, "Payload fullness confused with ObjQueue fullness");
++        endaction
+         lsq.specUpdate.incorrectSpeculation(True, 0);
+         delay(creditDrainDelay);
+         // Buffer-hit/no-check reservation is returned while the payload is
+@@ -369,6 +380,7 @@ with (contextlib.nullcontext(workspace) if workspace else tempfile.TemporaryDire
+     flags += ['-p', '+:'+str(base), '-bdir', str(base), '-simdir', str(base), '-info-dir', str(base)]
+     subprocess.run(['bsc', '-sim', '-u', '-g', 'mkTest', *flags, str(base/'Test.bsv')], cwd=root/'src_SSITH_P3', check=True)
+     subprocess.run(['bsc', '-sim', '-e', 'mkTest', *flags, '-Xc++', '-O1', '-o', str(base/'test')], cwd=root/'src_SSITH_P3', check=True)
+-    result = subprocess.check_output([str(base/'test')], text=True, timeout=60)
++    result = subprocess.check_output([str(base/'test'), '+trace_objq'], text=True, timeout=60)
+     print(result, end='')
+     assert 'PASS:' in result and 'FAIL:' not in result
++    assert 'OBJQ_HIGH' in result
+diff --git a/src_Core/RISCY_OOO/procs/RV64G_OOO/RenameStage.bsv b/src_Core/RISCY_OOO/procs/RV64G_OOO/RenameStage.bsv
+index d935830a..ab28afd6 100644
+--- a/src_Core/RISCY_OOO/procs/RV64G_OOO/RenameStage.bsv
++++ b/src_Core/RISCY_OOO/procs/RV64G_OOO/RenameStage.bsv
+@@ -148,6 +148,28 @@ module mkRenameStage#(RenameInput inIfc)(RenameStage);
+     ReservationStationMem reservationStationMem = inIfc.rsMemIfc;
+     SplitLSQ lsq = inIfc.lsqIfc;
+ 
++`ifdef BSIM
++    Reg#(Bool) traceObjQueueEnabled <- mkReg(False);
++    Reg#(Bool) traceObjQueueConfigured <- mkReg(False);
++    rule configureObjQueueTrace (!traceObjQueueConfigured);
++        let enabled <- $test$plusargs("trace_objq");
++        traceObjQueueEnabled <= enabled;
++        traceObjQueueConfigured <= True;
++    endrule
++    function Action printObjQueueBlock(Integer lane, CapMem pc, Bool load, ObjIdQueueDebug q);
++        action
++            Bit#(32) traceCycle <- cur_cycle;
++            Bit#(32) traceLane = fromInteger(lane);
++            Bit#(32) traceUsed = zeroExtend(q.used);
++            Bit#(32) traceLimit = zeroExtend(q.limit);
++            Bit#(32) traceTail = zeroExtend(q.tail);
++            Bit#(32) traceLoad = load ? 1 : 0;
++            $display("OBJQ_BLOCK cycle=%0d pc=0x%0h lane=%0d used=%0d limit=%0d tail=%0d load=%0d",
++                     traceCycle, getAddr(pc), traceLane, traceUsed, traceLimit, traceTail, traceLoad);
++        endaction
++    endfunction
++`endif
++
+     // performance counter
+     Count#(Data) supRenameCnt <- mkCount(0);
+ `ifdef PERF_COUNT
+@@ -859,6 +881,54 @@ module mkRenameStage#(RenameInput inIfc)(RenameStage);
+         return rdy[idx] ? Valid (idx) : Invalid;
+     endfunction
+ 
++`ifdef BSIM
++    // doRenaming is explicitly disabled if it makes no progress. Observe its
++    // blocked first lane separately, without calling any allocation actions.
++    // All other explicit admission prerequisites must be available, so this
++    // records an ObjQueue-only stall, not merely simultaneous queue fullness.
++    rule traceObjQueueHead (
++        traceObjQueueEnabled && !inIfc.pendingMMIOPRq
++        && fetchStage.pipelines[0].canDeq
++        && epochManager.checkEpoch[0].check(fetchStage.pipelines[0].first.main_epoch)
++        && !isValid(firstTrap) && !firstReplay
++`ifdef SECURITY
++        && (!specNone || rob.isEmpty)
++        && (!(specNonMem && firstMem) || rob.isEmpty)
++`endif
++`ifdef INCLUDE_GDB_CONTROL
++        && inIfc.core_is_running
++`endif
++    );
++        Bool recordBlock = False;
++        let x = fetchStage.pipelines[0].first;
++        if (!isValid(getTrap(x)) && !doReplay(x.dInst.iType)
++            && rob.enqPort[0].canEnq && regRenamingTable.rename[0].canRename
++            && reservationStationMem.canEnq) begin
++            // Match the normal routing priority: capability inspect/modify
++            // operations use the ALU even if other decode fields mention Mem.
++            Bool routesToMem = True;
++            case (x.dInst.capFunc) matches
++                tagged CapInspect .ci: routesToMem = False;
++                tagged CapModify .cm: routesToMem = False;
++            endcase
++`ifdef SECURITY
++            if (specNonMem && firstMem) routesToMem = True;
++`endif
++            if (routesToMem &&& x.dInst.execFunc matches tagged Mem .mem_inst) begin
++                Bool load = isLdQMemFunc(mem_inst.mem_func);
++                let {q, ldSpace, stSpace, conflict} = lsq.objIdAdmissionDebug;
++                if (q.full && !conflict && (load ? ldSpace : stSpace)) begin
++                    recordBlock = True;
++                    printObjQueueBlock(0, x.pc, load, q);
++                end
++            end
++        end
++        // Like doRenaming's progress guard, do not fire a no-output rule
++        // which might otherwise compete with useful work.
++        when(recordBlock, noAction);
++    endrule
++`endif
++
+     // rename correct path inst
+     rule doRenaming(
+         !inIfc.pendingMMIOPRq // stall when MMIO pRq is pending
+@@ -1141,6 +1211,15 @@ module mkRenameStage#(RenameInput inIfc)(RenameStage);
+                                 end
+                             end
+                             else begin
++`ifdef BSIM
++                                // A younger lane can be blocked while an older
++                                // non-memory instruction still makes progress.
++                                if (i != 0 && traceObjQueueEnabled && !memExeUsed && reservationStationMem.canEnq) begin
++                                    let {q, ldSpace, stSpace, conflict} = lsq.objIdAdmissionDebug;
++                                    if (q.full && !conflict && (isLdQ ? ldSpace : stSpace))
++                                        printObjQueueBlock(i, pc, isLdQ, q);
++                                end
++`endif
+                                 // cannot process this inst, stop
+                                 stop = True;
+                             end
+diff --git a/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv b/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv
+index 7c6dade2..1aa4bd03 100644
+--- a/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv
++++ b/src_Core/RISCY_OOO/procs/lib/ObjIdLoadQueue.bsv
+@@ -14,6 +14,9 @@ import RegFile::*;
+ import RWire::*;
+ import Types::*;
+ import Vector::*;
++`ifdef BSIM
++import Cur_Cycle::*;
++`endif
+ 
+ typedef struct {
+     LdStQTag parent;
+@@ -39,7 +42,20 @@ typedef struct {
+     Bool ok;
+ } ObjIdResult deriving(Bits, Eq, FShow);
+ 
++`ifdef BSIM
++typedef Bit#(TLog#(TAdd#(ObjIdQSize,1))) ObjIdQOccupancy;
++typedef struct {
++    ObjIdQOccupancy used;
++    ObjIdQOccupancy limit;
++    ObjIdQTag tail;
++    Bool full;
++} ObjIdQueueDebug deriving(Bits, Eq, FShow);
++`endif
++
+ interface ObjIdLoadQueue;
++`ifdef BSIM
++    method ObjIdQueueDebug debug;
++`endif
+     method Maybe#(ObjIdQTag) enqTag;
+     method Action reserve(ObjIdOwner owner, SpecBits specBits, Bool unused);
+     method Action setVAddr(ObjIdQTag tag, Addr addr);
+@@ -84,8 +100,22 @@ module mkObjIdLoadQueue(ObjIdLoadQueue);
+     Reg#(ObjIdQTag) cursor <- mkReg(0);
+     PulseWire wrongSpec <- mkPulseWire;
+ 
++    // Study-only effective ring size. Physical maximum remains OBJIDQ_SIZE.
++    // Validate any selected knee with a separately compiled physical capacity.
++    Reg#(ObjIdQTag) studyLast <- mkReg(fromInteger(valueOf(ObjIdQSize)-1));
++    Reg#(Bool) studyConfigured <- mkReg(False);
++    rule configureStudyQueue (!studyConfigured);
++        ObjIdQTag last = fromInteger(valueOf(ObjIdQSize)-1);
++        for (Integer n=1; n<=valueOf(ObjIdQSize); n=n+1) begin
++            Bool chosen <- $test$plusargs("objq" + integerToString(n));
++            if (chosen) last = fromInteger(n-1);
++        end
++        studyLast <= last;
++        studyConfigured <= True;
++        $display("STUDY ObjQueue effective last-index=%0d physical=%0d", last, valueOf(ObjIdQSize));
++    endrule
+     function ObjIdQTag next(ObjIdQTag tag) =
+-        tag == fromInteger(valueOf(ObjIdQSize)-1) ? 0 : tag+1;
++        tag == studyLast ? 0 : tag+1;
+     function Bit#(ObjIdQSize) pending;
+         Bit#(ObjIdQSize) bits = 0;
+         for (Integer i=0; i<valueOf(ObjIdQSize); i=i+1)
+@@ -93,6 +123,24 @@ module mkObjIdLoadQueue(ObjIdLoadQueue);
+                            translated[i][0] && !issued[i][0] && !done[i][0] && !canceled[i][0]);
+         return bits;
+     endfunction
++`ifdef BSIM
++    Reg#(Bool) traceQueueEnabled <- mkReg(False);
++    Reg#(Bool) traceQueueConfigured <- mkReg(False);
++    Reg#(ObjIdQOccupancy) traceHighWater <- mkReg(0);
++    rule configureQueueTrace (!traceQueueConfigured);
++        let enabled <- $test$plusargs("trace_objq");
++        traceQueueEnabled <= enabled;
++        traceQueueConfigured <= True;
++    endrule
++    // Same EHR phase as the allocation guard: include same-cycle returns.
++    function ObjIdQOccupancy traceUsedCount;
++        ObjIdQOccupancy count = 0;
++        for (Integer i=0; i<valueOf(ObjIdQSize); i=i+1)
++            count = count + zeroExtend(pack(used[i][1]));
++        return count;
++    endfunction
++`endif
++
+     function ObjIdQTag selected;
+         Bit#(ObjIdQSize) upper = pending & ('1 << cursor);
+         Bit#(ObjIdQSize) candidates = upper != 0 ? upper : pending;
+@@ -121,8 +169,28 @@ module mkObjIdLoadQueue(ObjIdLoadQueue);
+         endinterface;
+     end
+ 
+-    method Maybe#(ObjIdQTag) enqTag = !used[tail][1] ? Valid(tail) : Invalid;
+-    method Action reserve(ObjIdOwner owner, SpecBits specBits, Bool unused) if (!used[tail][1] && !wrongSpec);
++`ifdef BSIM
++    method ObjIdQueueDebug debug = ObjIdQueueDebug {
++        used: traceUsedCount, limit: zeroExtend(studyLast)+1,
++        tail: tail, full: used[tail][1]
++    };
++`endif
++    method Maybe#(ObjIdQTag) enqTag = studyConfigured && !used[tail][1] ? Valid(tail) : Invalid;
++    method Action reserve(ObjIdOwner owner, SpecBits specBits, Bool unused) if (studyConfigured && !used[tail][1] && !wrongSpec);
++`ifdef BSIM
++        if (traceQueueEnabled) begin
++            // Count the newly reserved entry too, so reaching capacity is
++            // observable even when the next cycle returns a credit in time.
++            ObjIdQOccupancy afterAllocation = traceUsedCount + 1;
++            if (afterAllocation > traceHighWater) begin
++                traceHighWater <= afterAllocation;
++                Bit#(32) traceCycle <- cur_cycle;
++                Bit#(32) traceUsed = zeroExtend(afterAllocation);
++                Bit#(32) traceLimit = zeroExtend(studyLast)+1;
++                $display("OBJQ_HIGH cycle=%0d used=%0d limit=%0d", traceCycle, traceUsed, traceLimit);
++            end
++        end
++`endif
+         owners.upd(tail, owner);
+         commitTags.upd(tail, owner.instTag);
+         storeOwner[tail] <= case (owner.parent) matches
+diff --git a/src_Core/RISCY_OOO/procs/lib/SplitLSQ.bsv b/src_Core/RISCY_OOO/procs/lib/SplitLSQ.bsv
+index a50332bf..d94d919b 100644
+--- a/src_Core/RISCY_OOO/procs/lib/SplitLSQ.bsv
++++ b/src_Core/RISCY_OOO/procs/lib/SplitLSQ.bsv
+@@ -73,6 +73,9 @@ export LdQDeqEntry(..);
+ export StQDeqEntry(..);
+ export LSQObjIdSearchResult(..);
+ export LSQObjIdIssueInfo(..);
++`ifdef BSIM
++export ObjIdQueueDebug(..);
++`endif
+ export LSQUpdateAddrResult(..);
+ export LSQForwardResult(..);
+ export LdStalledBy(..);
+@@ -382,6 +385,10 @@ typedef union tagged {
+ } LSQObjIdSearchResult deriving(Bits, Eq, FShow);
+ 
+ interface SplitLSQ;
++`ifdef BSIM
++    // ObjQueue snapshot, independent LQ/SQ space, and speculation conflict.
++    method Tuple4#(ObjIdQueueDebug, Bool, Bool, Bool) objIdAdmissionDebug;
++`endif
+     // Enq at renaming. We split to 2 enq methods to enable synthesize
+     // boundary. If we merge into 1 enq method, the guard will depend on the
+     // type of mem inst, so cannot be synthesized.
+@@ -1625,6 +1632,10 @@ module mkSplitLSQ(SplitLSQ);
+         endcase);
+     endmethod
+ 
++`ifdef BSIM
++    method Tuple4#(ObjIdQueueDebug, Bool, Bool, Bool) objIdAdmissionDebug =
++        tuple4(objIds.debug, ld_can_enq_wire, st_can_enq_wire, wrongSpec_conflict);
++`endif
+     method Maybe#(LdStQTag) enqLdTag;
+         return ld_can_enq_wire && isValid(objIds.enqTag) ? Valid (Ld (ld_enqP)) : Invalid;
+     endmethod
+diff --git a/src_Testbench/SoC/SoC_Top.bsv b/src_Testbench/SoC/SoC_Top.bsv
+index 6df676b0..7f105958 100644
+--- a/src_Testbench/SoC/SoC_Top.bsv
++++ b/src_Testbench/SoC/SoC_Top.bsv
+@@ -48,6 +48,7 @@ import GetPut_Aux  :: *;
+ import Routable    :: *;
+ import BlueBasics  :: *;
+ import BlueAXI4    :: *;
++import AXI4_DelayShim :: *;
+ 
+ // ================================================================
+ // Project imports
+@@ -212,7 +213,20 @@ module mkSoC_Top #(Reset dm_power_on_reset)
+ 
+    // Fabric to Mem Controller
+    mkConnection(mem0_controller_axi4_deburster.master, mem0_controller.slave);
+-   slave_vector[mem0_controller_slave_num] = mem0_controller_axi4_deburster.slave;
++   // Study-only: the existing fully pipelined AXI delay affects DRAM traffic,
++   // outside the LLC. Peripheral routes and cache hits retain their latency.
++   Reg#(Bit#(16)) studyMemLatency <- mkReg(50);
++   Reg#(Bool) studyMemConfigured <- mkReg(False);
++   rule configureStudyMemory (!studyMemConfigured);
++      Bool zeroDelay <- $test$plusargs("memlat0");
++      studyMemLatency <= zeroDelay ? 0 : 50;
++      studyMemConfigured <= True;
++      $display("STUDY memory added latency=%0d", zeroDelay ? 0 : 50);
++   endrule
++   NumProxy#(128) delayDepth = error("proxy");
++   let dramDelay <- mkAXI4_DelayShim(delayDepth, studyMemLatency);
++   mkConnection(dramDelay.master, mem0_controller_axi4_deburster.slave);
++   slave_vector[mem0_controller_slave_num] = dramDelay.slave;
+    route_vector[mem0_controller_slave_num] = soc_map.m_mem0_controller_addr_range;
+ 
+    // Fabric to UART0

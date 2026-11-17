@@ -76,3 +76,6 @@ Patricia source.
 Add new binaries only with corresponding source pins, validation and manifest
 updates. Leave uncoloured controls, generated traces and failed binaries out
 of the root suite.
+
+The study also includes optional `+trace_objq` admission instrumentation,
+[occupancy/stall results and filtered logs](study/objqueue-2026-11-17/README.md#admission-trace-follow-up).

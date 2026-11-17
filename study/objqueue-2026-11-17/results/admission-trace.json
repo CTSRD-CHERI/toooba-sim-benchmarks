@@ -1,0 +1,711 @@
+[
+  {
+    "benchmark": "bisort-objid.bin",
+    "entries": 13,
+    "peak_allocated": 13,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 22501,
+    "fraction_of_whole_cycles_percent": 9.036146997522199,
+    "longest_consecutive_blocked_cycles": 87,
+    "blocked_by_lane": {
+      "1": 4,
+      "0": 22497
+    },
+    "blocked_by_payload_queue": {
+      "LQ": 21886,
+      "SQ": 615
+    },
+    "body_cycles": 244143,
+    "whole_cycles": 249011,
+    "timing_match": "exact",
+    "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+    "blocked_by_function": {
+      "RandTree": 22146,
+      "inspect": 315,
+      "objid_alloc": 28,
+      "Bimerge": 7,
+      "_start_purecap": 5
+    },
+    "top_pcs": [
+      {
+        "pc": "0x8000043c",
+        "symbol": "RandTree+0x40",
+        "cycles": 21361
+      },
+      {
+        "pc": "0x8000040c",
+        "symbol": "RandTree+0x10",
+        "cycles": 516
+      },
+      {
+        "pc": "0x80000d76",
+        "symbol": "inspect+0x5c",
+        "cycles": 146
+      },
+      {
+        "pc": "0x800005e2",
+        "symbol": "RandTree+0x1e6",
+        "cycles": 121
+      },
+      {
+        "pc": "0x800005e6",
+        "symbol": "RandTree+0x1ea",
+        "cycles": 78
+      },
+      {
+        "pc": "0x80000df0",
+        "symbol": "inspect+0xd6",
+        "cycles": 74
+      },
+      {
+        "pc": "0x80000d66",
+        "symbol": "inspect+0x4c",
+        "cycles": 71
+      },
+      {
+        "pc": "0x80000424",
+        "symbol": "RandTree+0x28",
+        "cycles": 53
+      },
+      {
+        "pc": "0x80000dac",
+        "symbol": "inspect+0x92",
+        "cycles": 22
+      },
+      {
+        "pc": "0x80000a2a",
+        "symbol": "objid_alloc+0x136",
+        "cycles": 21
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=3332 pc=0x8000089c lane=1 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=3333 pc=0x8000089c lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=3402 pc=0x80000834 lane=1 used=13 limit=13 tail=9 load=1",
+      "OBJQ_BLOCK cycle=3403 pc=0x80000834 lane=0 used=13 limit=13 tail=9 load=1",
+      "OBJQ_BLOCK cycle=3404 pc=0x80000834 lane=0 used=13 limit=13 tail=9 load=1"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q13/bisort-objid/result.json"
+  },
+  {
+    "benchmark": "patricia.bin",
+    "entries": 13,
+    "peak_allocated": 13,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 1881,
+    "fraction_of_whole_cycles_percent": 0.13041335000072798,
+    "longest_consecutive_blocked_cycles": 72,
+    "blocked_by_lane": {
+      "1": 45,
+      "0": 1836
+    },
+    "blocked_by_payload_queue": {
+      "LQ": 1543,
+      "SQ": 338
+    },
+    "body_cycles": 1437471,
+    "whole_cycles": 1442337,
+    "timing_match": "exact",
+    "sha256": "3120c5724e921f85a792b666335969cd6efa8556fdb295c51f1ce252bd502005",
+    "blocked_by_function": {
+      "pat_search": 1153,
+      "inet_aton": 332,
+      "benchmark": 206,
+      "_start_purecap": 182,
+      "pat_insert": 3,
+      "_exit": 3,
+      "malloc": 2
+    },
+    "top_pcs": [
+      {
+        "pc": "0x800012b0",
+        "symbol": "pat_search+0x1a",
+        "cycles": 1104
+      },
+      {
+        "pc": "0x800013aa",
+        "symbol": "inet_aton+0x14",
+        "cycles": 266
+      },
+      {
+        "pc": "0x800016b0",
+        "symbol": "benchmark+0x15c",
+        "cycles": 199
+      },
+      {
+        "pc": "0x800002e6",
+        "symbol": "_start_purecap+0x76",
+        "cycles": 178
+      },
+      {
+        "pc": "0x800013b0",
+        "symbol": "inet_aton+0x1a",
+        "cycles": 66
+      },
+      {
+        "pc": "0x800012c0",
+        "symbol": "pat_search+0x2a",
+        "cycles": 49
+      },
+      {
+        "pc": "0x80001624",
+        "symbol": "benchmark+0xd0",
+        "cycles": 7
+      },
+      {
+        "pc": "0x800002fc",
+        "symbol": "_start_purecap+0x8c",
+        "cycles": 4
+      },
+      {
+        "pc": "0x80000dde",
+        "symbol": "pat_insert+0xa",
+        "cycles": 3
+      },
+      {
+        "pc": "0x80000332",
+        "symbol": "_exit+0xe",
+        "cycles": 3
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=2754 pc=0x800002e6 lane=1 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=2755 pc=0x800002e6 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=2756 pc=0x800002e6 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=2757 pc=0x800002e6 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=2758 pc=0x800002e6 lane=0 used=13 limit=13 tail=8 load=1"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q13/patricia/result.json"
+  },
+  {
+    "benchmark": "treeadd-objid.bin",
+    "entries": 13,
+    "peak_allocated": 13,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 1047,
+    "fraction_of_whole_cycles_percent": 0.6440381870970917,
+    "longest_consecutive_blocked_cycles": 17,
+    "blocked_by_lane": {
+      "0": 1044,
+      "1": 3
+    },
+    "blocked_by_payload_queue": {
+      "SQ": 239,
+      "LQ": 808
+    },
+    "body_cycles": 158137,
+    "whole_cycles": 162568,
+    "timing_match": "exact",
+    "sha256": "e7fb96b5d0ad9bab7da390d65316bfec9f5accd145c00305550fe48766c08319",
+    "blocked_by_function": {
+      "TreeAlloc": 767,
+      "TreeAdd": 147,
+      "objid_alloc": 121,
+      "_init": 11,
+      "main": 1
+    },
+    "top_pcs": [
+      {
+        "pc": "0x80000366",
+        "symbol": "TreeAlloc+0x8a",
+        "cycles": 514
+      },
+      {
+        "pc": "0x8000035e",
+        "symbol": "TreeAlloc+0x82",
+        "cycles": 243
+      },
+      {
+        "pc": "0x80000498",
+        "symbol": "objid_alloc+0x8",
+        "cycles": 115
+      },
+      {
+        "pc": "0x80000288",
+        "symbol": "TreeAdd+0x10",
+        "cycles": 55
+      },
+      {
+        "pc": "0x80000284",
+        "symbol": "TreeAdd+0xc",
+        "cycles": 53
+      },
+      {
+        "pc": "0x800002ca",
+        "symbol": "TreeAdd+0x52",
+        "cycles": 30
+      },
+      {
+        "pc": "0x8000069a",
+        "symbol": "_init+0x1c",
+        "cycles": 11
+      },
+      {
+        "pc": "0x800002ce",
+        "symbol": "TreeAdd+0x56",
+        "cycles": 9
+      },
+      {
+        "pc": "0x800002f0",
+        "symbol": "TreeAlloc+0x14",
+        "cycles": 6
+      },
+      {
+        "pc": "0x80000494",
+        "symbol": "objid_alloc+0x4",
+        "cycles": 6
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=6791 pc=0x800002f0 lane=0 used=13 limit=13 tail=3 load=0",
+      "OBJQ_BLOCK cycle=6792 pc=0x800002f0 lane=0 used=13 limit=13 tail=3 load=0",
+      "OBJQ_BLOCK cycle=7209 pc=0x80000366 lane=0 used=13 limit=13 tail=11 load=1",
+      "OBJQ_BLOCK cycle=7604 pc=0x800002f0 lane=0 used=13 limit=13 tail=7 load=0",
+      "OBJQ_BLOCK cycle=7605 pc=0x800002f0 lane=0 used=13 limit=13 tail=7 load=0"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q13/treeadd-objid/result.json"
+  },
+  {
+    "benchmark": "treeadd-warm-objid.bin",
+    "entries": 13,
+    "peak_allocated": 13,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 1229,
+    "fraction_of_whole_cycles_percent": 0.6875947610762061,
+    "longest_consecutive_blocked_cycles": 17,
+    "blocked_by_lane": {
+      "0": 1226,
+      "1": 3
+    },
+    "blocked_by_payload_queue": {
+      "SQ": 311,
+      "LQ": 918
+    },
+    "body_cycles": 66398,
+    "whole_cycles": 178739,
+    "timing_match": "exact",
+    "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+    "blocked_by_function": {
+      "TreeAlloc": 774,
+      "TreeAdd": 316,
+      "objid_alloc": 121,
+      "_init": 11,
+      "main": 7
+    },
+    "top_pcs": [
+      {
+        "pc": "0x80000366",
+        "symbol": "TreeAlloc+0x8a",
+        "cycles": 513
+      },
+      {
+        "pc": "0x8000035e",
+        "symbol": "TreeAlloc+0x82",
+        "cycles": 246
+      },
+      {
+        "pc": "0x80000498",
+        "symbol": "objid_alloc+0x8",
+        "cycles": 115
+      },
+      {
+        "pc": "0x800002ca",
+        "symbol": "TreeAdd+0x52",
+        "cycles": 105
+      },
+      {
+        "pc": "0x80000288",
+        "symbol": "TreeAdd+0x10",
+        "cycles": 96
+      },
+      {
+        "pc": "0x80000284",
+        "symbol": "TreeAdd+0xc",
+        "cycles": 84
+      },
+      {
+        "pc": "0x800002ce",
+        "symbol": "TreeAdd+0x56",
+        "cycles": 31
+      },
+      {
+        "pc": "0x8000069a",
+        "symbol": "_init+0x1c",
+        "cycles": 11
+      },
+      {
+        "pc": "0x80000790",
+        "symbol": "main+0xe8",
+        "cycles": 7
+      },
+      {
+        "pc": "0x800002f0",
+        "symbol": "TreeAlloc+0x14",
+        "cycles": 6
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=6862 pc=0x800002f0 lane=0 used=13 limit=13 tail=10 load=0",
+      "OBJQ_BLOCK cycle=6863 pc=0x800002f0 lane=0 used=13 limit=13 tail=10 load=0",
+      "OBJQ_BLOCK cycle=7280 pc=0x80000366 lane=0 used=13 limit=13 tail=5 load=1",
+      "OBJQ_BLOCK cycle=7675 pc=0x800002f0 lane=0 used=13 limit=13 tail=1 load=0",
+      "OBJQ_BLOCK cycle=7676 pc=0x800002f0 lane=0 used=13 limit=13 tail=1 load=0"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q13/treeadd-warm-objid/result.json"
+  },
+  {
+    "benchmark": "treeadd-wide-objid.bin",
+    "entries": 13,
+    "peak_allocated": 13,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 9190,
+    "fraction_of_whole_cycles_percent": 1.3325967075145984,
+    "longest_consecutive_blocked_cycles": 31,
+    "blocked_by_lane": {
+      "0": 9187,
+      "1": 3
+    },
+    "blocked_by_payload_queue": {
+      "LQ": 5483,
+      "SQ": 3707
+    },
+    "body_cycles": 685191,
+    "whole_cycles": 689631,
+    "timing_match": "exact",
+    "sha256": "930772524761e59933b00053d52f21e973616230c8732c5a099fcb7ab02dd0cd",
+    "blocked_by_function": {
+      "TreeAdd": 5518,
+      "TreeAlloc": 3160,
+      "objid_alloc": 501,
+      "_init": 11
+    },
+    "top_pcs": [
+      {
+        "pc": "0x80000288",
+        "symbol": "TreeAdd+0x10",
+        "cycles": 2687
+      },
+      {
+        "pc": "0x80000366",
+        "symbol": "TreeAlloc+0x8a",
+        "cycles": 2094
+      },
+      {
+        "pc": "0x800002ca",
+        "symbol": "TreeAdd+0x52",
+        "cycles": 1261
+      },
+      {
+        "pc": "0x800002ce",
+        "symbol": "TreeAdd+0x56",
+        "cycles": 1068
+      },
+      {
+        "pc": "0x8000035e",
+        "symbol": "TreeAlloc+0x82",
+        "cycles": 1014
+      },
+      {
+        "pc": "0x80000498",
+        "symbol": "objid_alloc+0x8",
+        "cycles": 495
+      },
+      {
+        "pc": "0x80000284",
+        "symbol": "TreeAdd+0xc",
+        "cycles": 473
+      },
+      {
+        "pc": "0x800002f0",
+        "symbol": "TreeAlloc+0x14",
+        "cycles": 32
+      },
+      {
+        "pc": "0x80000362",
+        "symbol": "TreeAlloc+0x86",
+        "cycles": 16
+      },
+      {
+        "pc": "0x8000069a",
+        "symbol": "_init+0x1c",
+        "cycles": 11
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=7543 pc=0x80000362 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=7544 pc=0x80000362 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=7545 pc=0x80000362 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=7546 pc=0x80000362 lane=0 used=13 limit=13 tail=8 load=1",
+      "OBJQ_BLOCK cycle=7547 pc=0x80000362 lane=0 used=13 limit=13 tail=8 load=1"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q13/treeadd-wide-objid/result.json"
+  },
+  {
+    "benchmark": "bisort-objid.bin",
+    "entries": 16,
+    "peak_allocated": 16,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 15375,
+    "fraction_of_whole_cycles_percent": 6.199096847028465,
+    "longest_consecutive_blocked_cycles": 64,
+    "blocked_by_lane": {
+      "0": 15374,
+      "1": 1
+    },
+    "blocked_by_payload_queue": {
+      "LQ": 15368,
+      "SQ": 7
+    },
+    "body_cycles": 243150,
+    "whole_cycles": 248020,
+    "timing_match": "exact",
+    "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+    "blocked_by_function": {
+      "RandTree": 15321,
+      "objid_alloc": 23,
+      "inspect": 22,
+      "Bisort": 7,
+      "Bimerge": 2
+    },
+    "top_pcs": [
+      {
+        "pc": "0x800005ba",
+        "symbol": "RandTree+0x1be",
+        "cycles": 8057
+      },
+      {
+        "pc": "0x80000462",
+        "symbol": "RandTree+0x66",
+        "cycles": 7180
+      },
+      {
+        "pc": "0x800005b6",
+        "symbol": "RandTree+0x1ba",
+        "cycles": 66
+      },
+      {
+        "pc": "0x80000a3a",
+        "symbol": "objid_alloc+0x146",
+        "cycles": 23
+      },
+      {
+        "pc": "0x80000d6a",
+        "symbol": "inspect+0x50",
+        "cycles": 22
+      },
+      {
+        "pc": "0x80000536",
+        "symbol": "RandTree+0x13a",
+        "cycles": 13
+      },
+      {
+        "pc": "0x800007ac",
+        "symbol": "Bisort+0x76",
+        "cycles": 7
+      },
+      {
+        "pc": "0x80000418",
+        "symbol": "RandTree+0x1c",
+        "cycles": 5
+      },
+      {
+        "pc": "0x80000646",
+        "symbol": "Bimerge+0x18",
+        "cycles": 2
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=8910 pc=0x80000a3a lane=0 used=16 limit=16 tail=2 load=1",
+      "OBJQ_BLOCK cycle=8911 pc=0x80000a3a lane=0 used=16 limit=16 tail=2 load=1",
+      "OBJQ_BLOCK cycle=8912 pc=0x80000a3a lane=0 used=16 limit=16 tail=2 load=1",
+      "OBJQ_BLOCK cycle=8913 pc=0x80000a3a lane=0 used=16 limit=16 tail=2 load=1",
+      "OBJQ_BLOCK cycle=8914 pc=0x80000a3a lane=0 used=16 limit=16 tail=2 load=1"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q16/bisort-objid/result.json"
+  },
+  {
+    "benchmark": "treeadd-warm-objid.bin",
+    "entries": 16,
+    "peak_allocated": 16,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 153,
+    "fraction_of_whole_cycles_percent": 0.08568932299834221,
+    "longest_consecutive_blocked_cycles": 14,
+    "blocked_by_lane": {
+      "0": 145,
+      "1": 8
+    },
+    "blocked_by_payload_queue": {
+      "LQ": 128,
+      "SQ": 25
+    },
+    "body_cycles": 66479,
+    "whole_cycles": 178552,
+    "timing_match": "exact",
+    "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+    "blocked_by_function": {
+      "TreeAlloc": 74,
+      "TreeAdd": 71,
+      "_init": 8
+    },
+    "top_pcs": [
+      {
+        "pc": "0x8000036a",
+        "symbol": "TreeAlloc+0x8e",
+        "cycles": 60
+      },
+      {
+        "pc": "0x800002c2",
+        "symbol": "TreeAdd+0x4a",
+        "cycles": 32
+      },
+      {
+        "pc": "0x800002ca",
+        "symbol": "TreeAdd+0x52",
+        "cycles": 20
+      },
+      {
+        "pc": "0x8000027c",
+        "symbol": "TreeAdd+0x4",
+        "cycles": 17
+      },
+      {
+        "pc": "0x8000036e",
+        "symbol": "TreeAlloc+0x92",
+        "cycles": 14
+      },
+      {
+        "pc": "0x8000069e",
+        "symbol": "_init+0x20",
+        "cycles": 8
+      },
+      {
+        "pc": "0x800002a4",
+        "symbol": "TreeAdd+0x2c",
+        "cycles": 2
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=11542 pc=0x8000036a lane=0 used=16 limit=16 tail=9 load=1",
+      "OBJQ_BLOCK cycle=12971 pc=0x8000036a lane=0 used=16 limit=16 tail=8 load=1",
+      "OBJQ_BLOCK cycle=14247 pc=0x8000036a lane=0 used=16 limit=16 tail=9 load=1",
+      "OBJQ_BLOCK cycle=15595 pc=0x8000036a lane=0 used=16 limit=16 tail=1 load=1",
+      "OBJQ_BLOCK cycle=17283 pc=0x8000036e lane=0 used=16 limit=16 tail=13 load=1"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q16/treeadd-warm-objid/result.json"
+  },
+  {
+    "benchmark": "bisort-objid.bin",
+    "entries": 19,
+    "peak_allocated": 19,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 6921,
+    "fraction_of_whole_cycles_percent": 2.7977314161670956,
+    "longest_consecutive_blocked_cycles": 54,
+    "blocked_by_lane": {
+      "0": 6921
+    },
+    "blocked_by_payload_queue": {
+      "SQ": 47,
+      "LQ": 6874
+    },
+    "body_cycles": 242507,
+    "whole_cycles": 247379,
+    "timing_match": "exact",
+    "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+    "blocked_by_function": {
+      "RandTree": 6894,
+      "inspect": 25,
+      "Bisort": 2
+    },
+    "top_pcs": [
+      {
+        "pc": "0x800005c6",
+        "symbol": "RandTree+0x1ca",
+        "cycles": 6808
+      },
+      {
+        "pc": "0x800005c2",
+        "symbol": "RandTree+0x1c6",
+        "cycles": 64
+      },
+      {
+        "pc": "0x80000d7c",
+        "symbol": "inspect+0x62",
+        "cycles": 25
+      },
+      {
+        "pc": "0x8000051a",
+        "symbol": "RandTree+0x11e",
+        "cycles": 17
+      },
+      {
+        "pc": "0x80000408",
+        "symbol": "RandTree+0xc",
+        "cycles": 5
+      },
+      {
+        "pc": "0x800007ca",
+        "symbol": "Bisort+0x94",
+        "cycles": 2
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=8912 pc=0x8000051a lane=0 used=19 limit=19 tail=10 load=0",
+      "OBJQ_BLOCK cycle=8913 pc=0x8000051a lane=0 used=19 limit=19 tail=10 load=0",
+      "OBJQ_BLOCK cycle=8914 pc=0x8000051a lane=0 used=19 limit=19 tail=10 load=0",
+      "OBJQ_BLOCK cycle=8915 pc=0x8000051a lane=0 used=19 limit=19 tail=10 load=0",
+      "OBJQ_BLOCK cycle=8916 pc=0x8000051a lane=0 used=19 limit=19 tail=10 load=0"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q19/bisort-objid/result.json"
+  },
+  {
+    "benchmark": "treeadd-warm-objid.bin",
+    "entries": 19,
+    "peak_allocated": 19,
+    "reached_capacity": true,
+    "objqueue_only_blocked_cycles": 61,
+    "fraction_of_whole_cycles_percent": 0.03431322915611957,
+    "longest_consecutive_blocked_cycles": 17,
+    "blocked_by_lane": {
+      "0": 60,
+      "1": 1
+    },
+    "blocked_by_payload_queue": {
+      "LQ": 61
+    },
+    "body_cycles": 65843,
+    "whole_cycles": 177774,
+    "timing_match": "exact",
+    "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+    "blocked_by_function": {
+      "TreeAdd": 56,
+      "_init": 5
+    },
+    "top_pcs": [
+      {
+        "pc": "0x800002ce",
+        "symbol": "TreeAdd+0x56",
+        "cycles": 51
+      },
+      {
+        "pc": "0x800002c2",
+        "symbol": "TreeAdd+0x4a",
+        "cycles": 5
+      },
+      {
+        "pc": "0x8000069a",
+        "symbol": "_init+0x1c",
+        "cycles": 5
+      }
+    ],
+    "examples": [
+      "OBJQ_BLOCK cycle=122406 pc=0x800002ce lane=0 used=19 limit=19 tail=3 load=1",
+      "OBJQ_BLOCK cycle=122407 pc=0x800002ce lane=0 used=19 limit=19 tail=3 load=1",
+      "OBJQ_BLOCK cycle=122408 pc=0x800002ce lane=0 used=19 limit=19 tail=3 load=1",
+      "OBJQ_BLOCK cycle=122409 pc=0x800002ce lane=0 used=19 limit=19 tail=3 load=1",
+      "OBJQ_BLOCK cycle=122410 pc=0x800002ce lane=0 used=19 limit=19 tail=3 load=1"
+    ],
+    "source": "analysis/objqueue-study/benchmark-suite/study/objqueue-2026-11-17/traces/q19/treeadd-warm-objid/result.json"
+  }
+]

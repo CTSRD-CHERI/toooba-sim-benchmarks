@@ -175,17 +175,73 @@ and latency and preserves compressed logs; `--reference` reuses an identical
 baseline without rerunning it. `summarize.py`, `report_tables.py`, `plot.py`
 and `check_physical.py` regenerate the ledgers, tables, figures and independent
 build comparison. Plotting uses matplotlib; the run/summary tools use Python's
-standard library. Generated CPU clones, simulator objects and raw traces are not part of this
-repository; the small result/model ledgers are retained. The ledger source
-fields refer to the original local workspace, not downloadable trace URLs.
+standard library. Generated CPU clones and simulator objects are omitted. The result/model
+ledgers and filtered admission traces are retained. Source fields in earlier
+ledgers refer to the original local workspace, not downloadable trace URLs.
 The original production checkouts and FPGA project were not modified.
 
-## Admission trace follow-up (in progress)
+## Admission trace follow-up
 
-The requested optional `+trace_objq` instrumentation is being added on the
-isolated `CHERID_eval_Reloaded_objqueue_trace` branch. It records true allocation
-high-water marks and blocked instruction admission, distinguishing ObjQueue
-credit exhaustion from full LQ/SQ or other resource limits. A separate observer
-is needed for a blocked first rename lane because the main rename rule is
-disabled when no instruction makes progress. No trace-run stall counts are
-claimed yet.
+**Yes: all five workloads reach all 13 allocated entries at the selected minimum.**
+The optional trace reran the full suite at 13, plus bisort and warm-treeadd at 16
+and 19. **All nine traced body and whole-program cycle counts match their
+original sweep measurements exactly.** Positive and faulting load/store probes
+also pass with tracing enabled.
+
+| Workload | Entries | Peak allocated | ObjQueue-only blocked cycles | First lane | Second lane | % of whole run | Longest consecutive block |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| bisort-objid.bin | 13 | 13 | 22,501 | 22,497 | 4 | 9.04% | 87 |
+| patricia.bin | 13 | 13 | 1,881 | 1,836 | 45 | 0.13% | 72 |
+| treeadd-objid.bin | 13 | 13 | 1,047 | 1,044 | 3 | 0.64% | 17 |
+| treeadd-warm-objid.bin | 13 | 13 | 1,229 | 1,226 | 3 | 0.69% | 17 |
+| treeadd-wide-objid.bin | 13 | 13 | 9,190 | 9,187 | 3 | 1.33% | 31 |
+| bisort-objid.bin | 16 | 16 | 15,375 | 15,374 | 1 | 6.20% | 64 |
+| treeadd-warm-objid.bin | 16 | 16 | 153 | 145 | 8 | 0.09% | 14 |
+| bisort-objid.bin | 19 | 19 | 6,921 | 6,921 | 0 | 2.80% | 54 |
+| treeadd-warm-objid.bin | 19 | 19 | 61 | 60 | 1 | 0.03% | 17 |
+
+![Whole-run admission pressure](results/admission-pressure.png)
+
+These are **whole-run rename/admission events**, including construction and
+untimed warm-up. First-lane events stop admission at the head; second-lane
+events still allow an older instruction to progress. The counter counts a
+cycle only when ObjQueue credit exhaustion is the sole explicit admission
+resource blocker. It does not count every cycle in which the queue is full,
+or joint stalls with a full ROB, RS or payload queue. Events from the tohost
+termination cycle are excluded.
+
+Fullness is therefore real, but the count is **not added execution time**:
+older work can execute while admission waits, and the 19-entry baseline itself
+records stalls. For example, bisort has 22,501 such cycles at 13 entries but its
+body is only 0.67% slower than 19. The baseline has 6,921 blocked cycles too.
+
+The PC histogram also separates construction from the algorithm. At13,
+22,146 of bisort's 22,501 events are in `RandTree`. The hottest PC,
+`0x8000043c` (`RandTree+0x40`, 21,361 events), maps to the inherited `foo++`
+counter load in `bitonic.c`. This is an ordinary data access; all loads/stores
+reserve credits even when an ObjID lookup will not be needed. Packed treeadd's
+1,047 events include 767 in `TreeAlloc` and 147 in `TreeAdd`; the warm variant
+has 316 `TreeAdd` events, including its untimed first traversal. These are not
+isolated timed-region stall measurements.
+
+To enable the simulation-only feature, apply [the trace model patch](models/trace.patch)
+to the public base (instead of the other model patches), build the normal
+Bluesim target, and run with:
+
+```
+<simulator> +objq13 +trace_objq +tohost
+```
+
+Default added DRAM latency remains 50 cycles. `OBJQ_HIGH` reports each new
+allocation high-water mark; `OBJQ_BLOCK` includes cycle, PC, lane, occupancy,
+capacity, allocation pointer and LQ/SQ class. The first-lane observer is separate
+from the normal rename rule because that rule is disabled when no instruction
+progresses. The feature is guarded by `BSIM` and is off unless requested.
+
+[Trace semantics and validation](trace-method.md),
+[per-PC/function counts and examples](results/admission-trace.json),
+[trace source/configuration](models/trace-configuration.json), and
+[trace analyzer](analyze_trace.py). The original local source branch is
+`CHERID_eval_Reloaded_objqueue_trace` at `a770e7f7`; no generated CPU files are
+committed. Filtered trace logs and per-run results are archived with the public
+benchmark study; the large original full-CPU traces are omitted.

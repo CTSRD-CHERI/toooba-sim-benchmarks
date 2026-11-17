@@ -28,5 +28,15 @@
     "patch_sha256": "6b4c6e589252b3892d9e4613a0d41ac6494c0931d3cfa19521850e37ea574638",
     "physical_entries": 16,
     "added_DRAM_latency": 50
+  },
+  {
+    "name": "trace",
+    "directory": "Toooba-trace",
+    "commit": "a770e7f7f24af5e4a9e7198c845a54c6f4572249",
+    "base": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+    "patch": "models/trace.patch",
+    "patch_sha256": "3374c6ecb4dbed9f6e3bc6ae4e10d18fc7876c57700cd1af868fab98818171e1",
+    "compiled_entries": 19,
+    "added_DRAM_latency": 50
   }
 ]
