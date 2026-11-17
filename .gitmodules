@@ -4,3 +4,4 @@
 [submodule "Toooba-olden"]
 	path = Toooba-olden
 	url = https://github.com/CTSRD-CHERI/Toooba-olden.git
+	branch = CHERID

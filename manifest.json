@@ -26,6 +26,171 @@
         },
         "interpretation": "Completed without simulator assertions; exit_value is benchmark body cycles, not an ISA test failure code. This is execution validation, not an independent algorithm-correctness proof."
       }
+    },
+    {
+      "file": "treeadd-objid.bin",
+      "sha256": "e7fb96b5d0ad9bab7da390d65316bfec9f5accd145c00305550fe48766c08319",
+      "format": "RISC-V purecap ELF",
+      "adaptation": "Packed page-footer mode-1 ObjIDs, bounded coloured node pointers",
+      "provenance": {
+        "repository": "https://github.com/CTSRD-CHERI/Toooba-olden",
+        "branch": "CHERID",
+        "commit": "ea2c0e9b0767acbc35288befd148424575c941ac",
+        "driver": "cherid/treeadd.c",
+        "build": [
+          "python3",
+          "cherid/build.py",
+          "--sdk",
+          "/path/to/sdk",
+          "--benchmark",
+          "treeadd",
+          "--levels",
+          "9",
+          "--output",
+          "treeadd-objid.bin"
+        ],
+        "compiler_revision": "c45239938ef27816bf169758f5f1b32639f6303c",
+        "compiler": "CTSRD CHERI LLVM 13.0.0; raw encoded custom instructions, see cherid/objid.h"
+      },
+      "validation": {
+        "model_base_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+        "model_study_commit": "622ef1a1",
+        "model_patch": "validation/model.patch",
+        "model": "Bluesim CORE_SMALL CACHE_LARGE, independent ObjQueue capacity 19",
+        "added_DRAM_latency_cycles": 50,
+        "observed": {
+          "cycles_to_tohost": 161769,
+          "tohost": 314667,
+          "exit_value": 157333,
+          "returncode": 0
+        },
+        "checks": "Tree node count/value sum",
+        "interpretation": "exit_value is measured body cycles, not an ISA test failure code; failure codes have bit30 set."
+      }
+    },
+    {
+      "file": "treeadd-wide-objid.bin",
+      "sha256": "930772524761e59933b00053d52f21e973616230c8732c5a099fcb7ab02dd0cd",
+      "format": "RISC-V purecap ELF",
+      "adaptation": "Packed page-footer mode-1 ObjIDs, bounded coloured node pointers",
+      "provenance": {
+        "repository": "https://github.com/CTSRD-CHERI/Toooba-olden",
+        "branch": "CHERID",
+        "commit": "ea2c0e9b0767acbc35288befd148424575c941ac",
+        "driver": "cherid/treeadd.c",
+        "build": [
+          "python3",
+          "cherid/build.py",
+          "--sdk",
+          "/path/to/sdk",
+          "--benchmark",
+          "treeadd",
+          "--levels",
+          "11",
+          "--output",
+          "treeadd-wide-objid.bin"
+        ],
+        "compiler_revision": "c45239938ef27816bf169758f5f1b32639f6303c",
+        "compiler": "CTSRD CHERI LLVM 13.0.0; raw encoded custom instructions, see cherid/objid.h"
+      },
+      "validation": {
+        "model_base_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+        "model_study_commit": "622ef1a1",
+        "model_patch": "validation/model.patch",
+        "model": "Bluesim CORE_SMALL CACHE_LARGE, independent ObjQueue capacity 19",
+        "added_DRAM_latency_cycles": 50,
+        "observed": {
+          "cycles_to_tohost": 691981,
+          "tohost": 1375021,
+          "exit_value": 687510,
+          "returncode": 0
+        },
+        "checks": "Tree node count/value sum",
+        "interpretation": "exit_value is measured body cycles, not an ISA test failure code; failure codes have bit30 set."
+      }
+    },
+    {
+      "file": "treeadd-warm-objid.bin",
+      "sha256": "980f2d0ef2c6fc6b3eed31e5630857fea0ebb001cbc1044e23297384b1aad35c",
+      "format": "RISC-V purecap ELF",
+      "adaptation": "Packed page-footer mode-1 ObjIDs, bounded coloured node pointers",
+      "provenance": {
+        "repository": "https://github.com/CTSRD-CHERI/Toooba-olden",
+        "branch": "CHERID",
+        "commit": "ea2c0e9b0767acbc35288befd148424575c941ac",
+        "driver": "cherid/treeadd.c",
+        "build": [
+          "python3",
+          "cherid/build.py",
+          "--sdk",
+          "/path/to/sdk",
+          "--benchmark",
+          "treeadd",
+          "--levels",
+          "9",
+          "--algorithm-only",
+          "--output",
+          "treeadd-warm-objid.bin"
+        ],
+        "compiler_revision": "c45239938ef27816bf169758f5f1b32639f6303c",
+        "compiler": "CTSRD CHERI LLVM 13.0.0; raw encoded custom instructions, see cherid/objid.h"
+      },
+      "validation": {
+        "model_base_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+        "model_study_commit": "622ef1a1",
+        "model_patch": "validation/model.patch",
+        "model": "Bluesim CORE_SMALL CACHE_LARGE, independent ObjQueue capacity 19",
+        "added_DRAM_latency_cycles": 50,
+        "observed": {
+          "cycles_to_tohost": 177774,
+          "tohost": 131687,
+          "exit_value": 65843,
+          "returncode": 0
+        },
+        "checks": "Tree node count/value sum",
+        "interpretation": "exit_value is measured body cycles, not an ISA test failure code; failure codes have bit30 set."
+      }
+    },
+    {
+      "file": "bisort-objid.bin",
+      "sha256": "e06138b3aad3c8b09836531aaee86987ac7dc1e5c01bcf53869322754276643a",
+      "format": "RISC-V purecap ELF",
+      "adaptation": "Packed page-footer mode-1 ObjIDs, bounded coloured node pointers",
+      "provenance": {
+        "repository": "https://github.com/CTSRD-CHERI/Toooba-olden",
+        "branch": "CHERID",
+        "commit": "ea2c0e9b0767acbc35288befd148424575c941ac",
+        "driver": "cherid/bisort.c",
+        "build": [
+          "python3",
+          "cherid/build.py",
+          "--sdk",
+          "/path/to/sdk",
+          "--benchmark",
+          "bisort",
+          "--levels",
+          "7",
+          "--output",
+          "bisort-objid.bin"
+        ],
+        "compiler_revision": "c45239938ef27816bf169758f5f1b32639f6303c",
+        "compiler": "CTSRD CHERI LLVM 13.0.0; raw encoded custom instructions, see cherid/objid.h"
+      },
+      "validation": {
+        "model_base_commit": "60d7c8295eceb3cc8c4249753d70866c300d47fc",
+        "model_study_commit": "622ef1a1",
+        "model_patch": "validation/model.patch",
+        "model": "Bluesim CORE_SMALL CACHE_LARGE, independent ObjQueue capacity 19",
+        "added_DRAM_latency_cycles": 50,
+        "observed": {
+          "cycles_to_tohost": 247379,
+          "tohost": 485015,
+          "exit_value": 242507,
+          "returncode": 0
+        },
+        "checks": "Ascending/descending order, node counts and value sum; independent identical input trees",
+        "interpretation": "exit_value is measured body cycles, not an ISA test failure code; failure codes have bit30 set."
+      }
     }
   ]
 }

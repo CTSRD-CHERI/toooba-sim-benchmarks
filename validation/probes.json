@@ -1,0 +1,35 @@
+[
+  {
+    "variant": "full50",
+    "benchmark": "objid-probe.bin",
+    "sha256": "bbd3283ee48d89bc6d3a744a575644c1af9857c367f765399e60a333aaad3077",
+    "last_logged_instret": 387,
+    "cycles_to_tohost": 5188,
+    "tohost": 1,
+    "exit_value": 0,
+    "returncode": 0,
+    "wall_seconds": 1.82
+  },
+  {
+    "variant": "full50",
+    "benchmark": "objid-negative.bin",
+    "sha256": "0dbd54f36e7dfe4837ab95816ea0cb43ebf7e292b87e52669a705ce93a1313c7",
+    "last_logged_instret": 435,
+    "cycles_to_tohost": 5570,
+    "tohost": 149131,
+    "exit_value": 74565,
+    "returncode": 0,
+    "wall_seconds": 1.89
+  },
+  {
+    "variant": "full50",
+    "benchmark": "objid-negative-store.bin",
+    "sha256": "c697884fa4669c4ed07c7ae3c36424cea542b2c619940c1091a8fa1d0da295e0",
+    "last_logged_instret": 436,
+    "cycles_to_tohost": 5576,
+    "tohost": 149131,
+    "exit_value": 74565,
+    "returncode": 0,
+    "wall_seconds": 1.94
+  }
+]
